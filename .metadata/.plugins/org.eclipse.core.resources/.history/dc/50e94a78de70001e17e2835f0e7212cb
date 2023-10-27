@@ -1,0 +1,24 @@
+package Tests;
+
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+
+import Pages.LoginPage;
+import io.github.bonigarcia.wdm.WebDriverManager;
+
+
+public class TestBase {
+	public WebDriver driver;
+	LoginPage loginPage;
+
+	//@BeforeSuite
+	public void beforeSuite(String URL) {
+		WebDriverManager.chromedriver().setup();
+		//System.setProperty("webdriver.chrome.driver", "/TestAutomationSuite/src/main/resources/chromedriver.exe ");
+		driver = new ChromeDriver();
+		driver.manage().window().maximize();
+		driver.navigate().to(URL);
+
+	}
+
+}

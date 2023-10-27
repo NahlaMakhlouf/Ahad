@@ -1,0 +1,41 @@
+package Tests;
+
+import org.testng.Assert;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.DataProvider;
+import org.testng.annotations.Test;
+
+import Pages.CompaniesPage;
+
+import Pages.LoginPage;
+import Utils.ExcelDataProvider;
+
+
+public class LoginTest extends TestBase {
+	LoginPage loginPage;
+	CompaniesPage companiespage;
+	
+
+	@BeforeClass
+	public void beforeClass() {
+		loginPage = new LoginPage(driver);
+		companiespage = new CompaniesPage(driver);
+
+	}
+	
+	@DataProvider(name = "login")
+	public  Object[][] getLoginData() {
+		String path = "D:\\ahad-automation-test-suite\\TestAutomationSuite\\Test Data\\data.xlsx";
+		String sheetName = "login";
+		Object[][] data = ExcelDataProvider.getTestData(path, sheetName);
+		return data;
+	}
+
+	@Test (dataProvider = "login")
+	public void loginAndAssert(String email, String password) throws InterruptedException {
+		Thread.sleep(3000);
+		loginPage.login(email, password);
+		Assert.assertTrue(companiespage.isWelcomeBackToasterDisplayed());
+	}
+
+}

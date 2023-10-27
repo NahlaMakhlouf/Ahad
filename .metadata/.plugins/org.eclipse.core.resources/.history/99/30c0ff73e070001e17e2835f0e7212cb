@@ -1,0 +1,23 @@
+package Tests;
+
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+
+import Pages.LoginPage;
+import io.github.bonigarcia.wdm.WebDriverManager;
+
+
+public class TestBase {
+	protected WebDriver driver;
+	LoginPage loginPage;
+
+	
+	public void openBrowser(String URL) {
+		WebDriverManager.chromedriver().setup();
+		driver = new ChromeDriver();
+		driver.manage().window().maximize();
+		driver.navigate().to(URL);
+
+	}
+
+}

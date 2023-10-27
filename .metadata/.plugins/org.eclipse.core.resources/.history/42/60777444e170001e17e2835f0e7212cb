@@ -1,0 +1,32 @@
+package Tests;
+
+import org.testng.Assert;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Test;
+
+import Pages.CompaniesPage;
+
+import Pages.LoginPage;
+
+public class LoginTest extends TestBase {
+	LoginPage loginPage;
+	CompaniesPage companiespage;
+	
+	@BeforeClass
+	public void beforeClass() {
+		openBrowser("https://ahad-fe.ahadtest.com/auth/login");
+		loginPage = new LoginPage(driver);
+		companiespage = new CompaniesPage(driver);	
+		
+	}
+ 
+  
+    @Test
+    public void loginAndAssert() throws InterruptedException {
+    	Thread.sleep(3000);
+        loginPage.login("nahlamakhlouf1@gmail.com" , "123456");
+        Assert.assertTrue(companiespage.isWelcomeBackToasterDisplayed());
+
+    }
+
+}
