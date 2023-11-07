@@ -2,6 +2,7 @@ package Utils;
 
 import java.io.IOException;
 
+import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.apache.poi.ss.usermodel.CellType;
@@ -9,6 +10,7 @@ import org.apache.poi.ss.usermodel.CellType;
 public class ExcelUtils {
 	private static XSSFWorkbook workbook;
 	private static XSSFSheet sheet;
+	private static XSSFCell cell;
 
 	public ExcelUtils(String path, String sheetName) {
 		try {
@@ -38,13 +40,15 @@ public class ExcelUtils {
 	public static String getCellData(int rowNum, int colNum) {
 
 		String cellData = null;
-		if (sheet.getRow(rowNum).getCell(colNum).getCellType().equals(CellType.STRING)) 
+		cell = sheet.getRow(rowNum).getCell(colNum);
+		
+		if (cell.getCellType().equals(CellType.STRING))
 		{
-			cellData = sheet.getRow(rowNum).getCell(colNum).getStringCellValue();
+			cellData = cell.getStringCellValue();
 		}
-		else if (sheet.getRow(rowNum).getCell(colNum).getCellType().equals(CellType.NUMERIC))
+		else if (cell.getCellType().equals(CellType.NUMERIC))
 		{
-			cellData = Integer.toString((int) sheet.getRow(rowNum).getCell(colNum).getNumericCellValue());
+			cellData = Integer.toString((int) cell.getNumericCellValue());
 		}
 
 		return cellData;

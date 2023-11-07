@@ -1,0 +1,31 @@
+package Tests;
+
+import org.openqa.selenium.WebDriver;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
+
+import Pages.CompaniesPage;
+import Pages.DashboardPage;
+import Pages.LoginPage;
+import Pages.PageBase;
+
+public class DashboardTest extends PageBase {
+
+	LoginPage loginPage;
+	CompaniesPage companiesPage ;
+	DashboardPage dashboardPage;
+	
+
+	@BeforeClass
+	public void beforeClass() {
+		loginPage = new LoginPage(driver);
+		companiesPage = new CompaniesPage(driver);
+		dashboardPage = new DashboardPage(driver);
+
+	}
+	@BeforeMethod
+	public void loginAndGoToCompanyDashboard(){
+		loginPage.login("nahlamakhlouf1@gmail.com", "123456");
+
+}
+}

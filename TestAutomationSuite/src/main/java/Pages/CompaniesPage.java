@@ -18,16 +18,13 @@ public class CompaniesPage extends PageBase{
 		 return true;
 	}
 	
-	public void browseCompany(String company_Name) {
+	public void goToCompanyDashboard(String company_Name) {
 		driverWait.until(ExpectedConditions.visibilityOfElementLocated(
 						By.xpath("//div[@class='pt-10 fs-2'][text()='" + company_Name + "']")))
 				.click();
 
 	}
-	public boolean isCompanyNameDisplayed(String company_Name) {
-		driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[text()='" + company_Name + "']")));
-		return true;
-	}
+	
 
 }
  
