@@ -15,7 +15,7 @@ public class SalesPage extends PageBase {
 	private By addNewSalesPageTitle = By.xpath("//div[@class=\"d-flex justify-content-center px-10 py-3 fs-6 \"] ");
 	private By actionsBtn = By.id("actionsButton");
 	private By addNewSalesBtn = By.id("add-sale-button");
-
+    private By totalNumberOfNumber = By.id("totalItemsNumber");
 	private By invoiceStatusToggle = By.id("invoice_status");
 	private By invoiceNumberField = By.id("invoice number");
 	private By invoiceDateField = By.id("invoice_date_id");
@@ -29,6 +29,10 @@ public class SalesPage extends PageBase {
 
 	public String getPageTitle() {
 		return driverWait.until(ExpectedConditions.visibilityOfElementLocated(salesPageTitle)).getText();
+	}
+	
+	public int getTotalNumberOfItems() {
+		return Integer.valueOf(driverWait.until(ExpectedConditions.visibilityOfElementLocated(totalNumberOfNumber)).getText());
 	}
 
 	public void openAddNewSales() {

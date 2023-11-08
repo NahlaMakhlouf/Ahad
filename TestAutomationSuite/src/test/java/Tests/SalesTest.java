@@ -39,14 +39,19 @@ public class SalesTest extends TestBase {
 	
 	@Test
 	public void addNewSalesDraftInvoice() throws InterruptedException {
+		var totalNumberOfItems = salespage.getTotalNumberOfItems();
 		salespage.openAddNewSales();
 		salespage.addNewDraftInvoice("01/11/2023","Nahla","product1", "SA_SA_S050");
+		Assert.assertTrue(totalNumberOfItems+1 == salespage.getTotalNumberOfItems());	
+		
 	}
 	
 	@Test
 	public void addNewSalesIssuedInvoice() throws InterruptedException {
+		var totalNumberOfItems = salespage.getTotalNumberOfItems();
 		salespage.openAddNewSales();
 		salespage.addNewIssuedInvoice("sales001","01/11/2023","Nahla","product1", "SA_SA_S050");
+		Assert.assertTrue(totalNumberOfItems+1 == salespage.getTotalNumberOfItems());
 	}
 	
 	
