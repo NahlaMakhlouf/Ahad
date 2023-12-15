@@ -1,0 +1,45 @@
+package Tests;
+
+import java.io.FileNotFoundException;
+import java.io.IOException;
+
+import org.testng.Assert;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.DataProvider;
+import org.testng.annotations.Test;
+
+import Pages.CompaniesPage;
+import Pages.LoginPage;
+import TestData.ExcelDataProvider;
+
+
+public class LoginTest extends TestBase {
+	LoginPage loginPage;
+	CompaniesPage companiespage;
+	static ExcelDataProvider excelprovider;
+	
+
+	@BeforeClass
+	public void beforeClass() {
+		loginPage = new LoginPage(driver);
+		companiespage = new CompaniesPage(driver);
+		excelprovider = new ExcelDataProvider();
+
+	}
+	@DataProvider
+	public static Object[][] getLoginData() throws FileNotFoundException, IOException{
+		excelprovider.openExcel(".\\src\\test\\java\\TestData\\data.xlsx", "Sheet1");
+		Object[][] data = excelprovider.getSheetData();
+		return data;
+	}
+	
+
+	@Test (dataProvider ="getLoginData")
+	public void loginAndAssert(String email, String password) throws InterruptedException {
+		Thread.sleep(3000);
+		loginPage.login(email, password);
+		Assert.assertTrue(companiespage.isWelcomeBackToasterDisplayed());
+		
+	}
+
+}

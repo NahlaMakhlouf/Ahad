@@ -1,0 +1,35 @@
+package Tests;
+
+import org.testng.Assert;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.DataProvider;
+import org.testng.annotations.Test;
+
+import Pages.CompaniesPage;
+import Pages.LoginPage;
+import Utils.ExcelDataProvider;
+
+
+public class LoginTest extends TestBase {
+	LoginPage loginPage;
+	CompaniesPage companiespage;
+	ExcelDataProvider excelprovider;
+	
+
+	@BeforeClass
+	public void beforeClass() {
+		loginPage = new LoginPage(driver);
+		companiespage = new CompaniesPage(driver);
+		excelprovider = new ExcelDataProvider();
+
+	}
+	
+
+	@Test (dataProvider ="login")
+	public void loginAndAssert(String email, String password) throws InterruptedException {
+		Thread.sleep(3000);
+		loginPage.login(email, password);
+		Assert.assertTrue(companiespage.isWelcomeBackToasterDisplayed());
+	}
+
+}

@@ -1,5 +1,8 @@
 package Tests;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
+
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
@@ -9,12 +12,14 @@ import Pages.CompaniesPage;
 import Pages.DashboardPage;
 import Pages.LoginPage;
 import Pages.SalesPage;
+import TestData.ExcelDataProvider;
 
 public class SalesTest extends TestBase {
 	LoginPage loginPage;
 	CompaniesPage companiesPage ;
 	DashboardPage dashboardPage;
 	SalesPage salespage;
+
 	
 
 	@BeforeClass
@@ -23,6 +28,7 @@ public class SalesTest extends TestBase {
 		companiesPage = new CompaniesPage(driver);
 		dashboardPage = new DashboardPage(driver);
 		salespage = new SalesPage(driver);	
+		
 
 	}
 	@BeforeMethod
@@ -38,20 +44,57 @@ public class SalesTest extends TestBase {
 	}
 	
 	@Test
-	public void addNewSalesDraftInvoice() throws InterruptedException {
+	public void addNewDraftSalesInvoice() throws InterruptedException {
 		var totalNumberOfItems = salespage.getTotalNumberOfItems();
 		salespage.openAddNewSales();
-		salespage.addNewDraftInvoice("01/11/2023","Nahla","product1", "SA_SA_S050");
+		salespage.addNewDraftInvoice("01/11/2023","01/11/2023","Nahla","product1", "SA_SA_S050");
 		Assert.assertTrue(totalNumberOfItems+1 == salespage.getTotalNumberOfItems());	
 		
 	}
 	
 	@Test
-	public void addNewSalesIssuedInvoice() throws InterruptedException {
+	public void addNewIssuedSalesInvoice() throws InterruptedException {
 		var totalNumberOfItems = salespage.getTotalNumberOfItems();
 		salespage.openAddNewSales();
-		salespage.addNewIssuedInvoice("sales001","01/11/2023","Nahla","product1", "SA_SA_S050");
+		salespage.addNewIssuedInvoice("sales001","01/11/2023","01/11/2023","Nahla","product1", "SA_SA_S050");
 		Assert.assertTrue(totalNumberOfItems+1 == salespage.getTotalNumberOfItems());
+	}
+	@Test
+	public void addNewDraftReturnInvoiceHasReferenceInvoice() throws InterruptedException {
+		salespage.openAddNewSalesReturn();
+		salespage.selectReturnWithReferenceInvoice("Test001");
+		Assert.assertEquals(salespage.getAddNewSalesReturnPageTitle(), "إضافة فاتورة مرتجع مبيعات");
+		salespage.addNewDraftReturnWithReferenceInvoice("10/12/2023", "10/12/2023" , 1);
+		Assert.assertTrue(salespage.isCreateInvoiceSuccessMessageDisplayed());	
+	}
+	
+	@Test
+	public void addNewIssuedReturnInvoiceHasReferenceInvoice() throws InterruptedException {
+		salespage.openAddNewSalesReturn();
+		salespage.selectReturnWithReferenceInvoice("Test001");
+		Assert.assertEquals(salespage.getAddNewSalesReturnPageTitle(), "إضافة فاتورة مرتجع مبيعات");
+		salespage.addNewIssuedReturnWithReferenceInvoice("Return001","10/12/2023", "10/12/2023" , 1);
+		Assert.assertTrue(salespage.isCreateInvoiceSuccessMessageDisplayed());
+	}
+	
+	@Test
+	public void addNewDraftReturnInvoiceHasNoReferenceInvoice() throws InterruptedException {
+		salespage.openAddNewSalesReturn();
+		salespage.selectReturnWithNoReferenceInvoice();
+		salespage.addNewDraftReturnWithNoReferenceInvoice("01/11/2023","01/11/2023","Nahla","product1", "SA_SA_S050_A");
+	}
+
+	@Test 
+	public void importSalesInvoices() throws FileNotFoundException, IOException {
+		int totalNumberOfItems = salespage.getTotalNumberOfItems();
+		salespage.openImportSales();
+		salespage.importSalesInvoices(System.getProperty("user.dir")+".\\src\\test\\java\\TestData\\Ahad_import-sales-template.xlsx");
+		int totalNumberOfItemsAfterImport = salespage.getTotalNumberOfItems();
+		
+		ExcelDataProvider.openExcel(".\\src\\test\\java\\TestData\\Ahad_import-sales-template.xlsx", "Worksheet");
+	    int numberOfSheetRecords = ExcelDataProvider.getRowCount();
+		Assert.assertEquals(totalNumberOfItemsAfterImport, totalNumberOfItems+numberOfSheetRecords);
+		
 	}
 	
 	

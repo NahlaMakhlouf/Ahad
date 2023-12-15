@@ -1,0 +1,80 @@
+package Tests;
+
+import java.io.FileNotFoundException;
+import java.io.IOException;
+
+import org.testng.Assert;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
+
+import Pages.CompaniesPage;
+import Pages.DashboardPage;
+import Pages.LoginPage;
+import Pages.SalesPage;
+import TestData.ExcelDataProvider;
+
+public class SalesTest extends TestBase {
+	LoginPage loginPage;
+	CompaniesPage companiesPage ;
+	DashboardPage dashboardPage;
+	SalesPage salespage;
+
+	
+
+	@BeforeClass
+	public void beforeClass() {
+		loginPage = new LoginPage(driver);
+		companiesPage = new CompaniesPage(driver);
+		dashboardPage = new DashboardPage(driver);
+		salespage = new SalesPage(driver);	
+		
+
+	}
+	@BeforeMethod
+	public void loginAndGoToCompanyDashboard(){
+		loginPage.login("nahlamakhlouf1@gmail.com", "123456");
+		companiesPage.goToCompanyDashboard("Automation");
+		dashboardPage.openSalesModule();
+	}
+	@Test
+	public void openAddNewSalesAndAssertPageTitle() {
+		salespage.openAddNewSales();
+		Assert.assertEquals(salespage.getAddNewSalesPageTitle(), "إضافة فاتورة مبيعات");
+	}
+	
+	@Test
+	public void addNewSalesDraftInvoice() throws InterruptedException {
+		var totalNumberOfItems = salespage.getTotalNumberOfItems();
+		salespage.openAddNewSales();
+		salespage.addNewDraftInvoice("01/11/2023","Nahla","product1", "SA_SA_S050");
+		Assert.assertTrue(totalNumberOfItems+1 == salespage.getTotalNumberOfItems());	
+		
+	}
+	
+	@Test
+	public void addNewSalesIssuedInvoice() throws InterruptedException {
+		var totalNumberOfItems = salespage.getTotalNumberOfItems();
+		salespage.openAddNewSales();
+		salespage.addNewIssuedInvoice("sales001","01/11/2023","Nahla","product1", "SA_SA_S050");
+		Assert.assertTrue(totalNumberOfItems+1 == salespage.getTotalNumberOfItems());
+	}
+
+	@Test 
+	public void importSalesInvoices() throws FileNotFoundException, IOException {
+		int totalNumberOfItems = salespage.getTotalNumberOfItems();
+		salespage.openImportSales();
+		salespage.importSalesInvoices(System.getProperty("user.dir")+".\\src\\test\\java\\TestData\\Ahad_import-sales-template.xlsx");
+		int totalNumberOfItemsAfterImport = salespage.getTotalNumberOfItems();
+		
+		ExcelDataProvider.openExcel(".\\src\\test\\java\\TestData\\Ahad_import-sales-template.xlsx", "Worksheet");
+	    int numberOfSheetRecords = ExcelDataProvider.getRowCount();
+		Assert.assertEquals(totalNumberOfItemsAfterImport, totalNumberOfItems+numberOfSheetRecords);
+		
+	}
+	
+	
+	
+	
+
+}

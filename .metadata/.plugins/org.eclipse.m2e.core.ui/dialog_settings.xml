@@ -2,8 +2,8 @@
 <section name="Workbench">
 	<section name="MavenProjectWizardLocationPage">
 		<list key="location">
-			<item value="D:\"/>
 			<item value="D:\ahad-automation-test-suite"/>
+			<item value="D:\"/>
 			<item value="D:\Ahad"/>
 			<item value="D:\classifier-automation-test-suite"/>
 		</list>
@@ -48,8 +48,8 @@
 	</section>
 	<section name="MavenProjectWizardArtifactPage">
 		<list key="groupId">
-			<item value="ws.ahad"/>
 			<item value="org.ahad"/>
+			<item value="ws.ahad"/>
 		</list>
 		<list key="name">
 			<item value="Ahad Test Automation Suite"/>
@@ -57,6 +57,7 @@
 			<item value="Ahad Automation Test Suite"/>
 		</list>
 		<list key="artifactId">
+			<item value="ahadAutomationSuite"/>
 			<item value="TestAutomationSuite"/>
 			<item value="ahadTestAutomationSuite"/>
 			<item value="ahadAutomationTestSuite"/>
@@ -70,8 +71,8 @@
 			<item value="[name]"/>
 		</list>
 		<list key="version">
-			<item value="1.0.0"/>
 			<item value="0.0.1-SNAPSHOT"/>
+			<item value="1.0.0"/>
 		</list>
 	</section>
 	<section name="org.eclipse.m2e.core.ui.internal.wizards.CustomArchetypeDialog">

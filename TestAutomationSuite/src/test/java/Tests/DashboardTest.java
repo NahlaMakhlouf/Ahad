@@ -35,8 +35,7 @@ public class DashboardTest extends TestBase{
 	public void openSalesModule() {
 		dashboardPage.openSalesModule();
 		Assert.assertEquals(salespage.getPageTitle(), "فواتير المبيعات");
-		
-		
+				
 	}
 
 }

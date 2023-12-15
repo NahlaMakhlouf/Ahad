@@ -2,6 +2,7 @@ package Tests;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeSuite;
 
 import Pages.CompaniesPage;
@@ -20,6 +21,7 @@ public class TestBase {
 		driver = new ChromeDriver();
 		driver.manage().window().maximize();
 		driver.get("https://ahad-fe.ahadtest.com/auth/login");
+		//driver.get("https://prelive.ahadtest.com/auth/login");
 		
 	}
 	

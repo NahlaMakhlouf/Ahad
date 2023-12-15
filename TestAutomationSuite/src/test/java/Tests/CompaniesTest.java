@@ -7,7 +7,6 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import Pages.LoginPage;
-import Utils.ExcelDataProvider;
 import Pages.CompaniesPage;
 import Pages.DashboardPage;
 

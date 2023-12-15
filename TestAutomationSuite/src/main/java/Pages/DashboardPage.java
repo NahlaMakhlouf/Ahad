@@ -19,7 +19,7 @@ public class DashboardPage extends PageBase{
 	}
 	public void openSalesModule() {
 		driverWait.until(ExpectedConditions.visibilityOfElementLocated(financialManagementModule)).click();
-		driverWait.until(ExpectedConditions.elementToBeClickable(salesInvoicesModule)).click();
+		driverWait.until(ExpectedConditions.visibilityOfElementLocated(salesInvoicesModule)).click();
 		
 	}
 	

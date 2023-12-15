@@ -5,10 +5,10 @@
     <classes>
       <class name="Tests.SalesTest">
         <methods>
-          <include name="beforeClass"/>
+          <include name="addNewIssuedReturnInvoiceHasReferenceInvoice"/>
           <include name="loginAndGoToCompanyDashboard"/>
+          <include name="beforeClass"/>
           <include name="beforeSuite"/>
-          <include name="addNewSalesIssuedInvoice"/>
         </methods>
       </class> <!-- Tests.SalesTest -->
     </classes>

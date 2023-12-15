@@ -1,0 +1,50 @@
+package TestData;
+
+import java.io.FileInputStream;
+import java.io.IOException;
+
+import org.apache.poi.xssf.usermodel.XSSFCell;
+import org.apache.poi.xssf.usermodel.XSSFRow;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.testng.annotations.DataProvider;
+
+public class ExcelDataProvider {
+	@DataProvider (name = "login")
+	public Object[][] dataProvider() throws IOException {
+	    // Read data from Excel file
+	    FileInputStream fis = new FileInputStream("D:\\ahad-automation-test-suite\\TestAutomationSuite\\Test Data\\data.xlsx");
+	    XSSFWorkbook workbook = new XSSFWorkbook(fis);
+	    XSSFSheet sheet = workbook.getSheet("Sheet1");
+
+	    int rowCount = sheet.getLastRowNum() + 1;
+	    int columnCount = sheet.getRow(0).getLastCellNum();
+
+	    Object[][] data = new Object[rowCount - 1][columnCount];
+	    for (int rowNum = 1; rowNum < rowCount; rowNum++) {
+	        XSSFRow row = sheet.getRow(rowNum);
+	        for (int colNum = 0; colNum < columnCount; colNum++) {
+	            XSSFCell cell = row.getCell(colNum);
+	            switch (cell.getCellType()) {
+	                case STRING:
+	                    data[rowNum - 1][colNum] = cell.getStringCellValue();
+	                    break;
+	                case NUMERIC:
+	                    data[rowNum - 1][colNum] = cell.getNumericCellValue();
+	                    break;
+	                default:
+	                    break;
+	            }
+	        }
+	    }
+
+	    fis.close();
+	    workbook.close();
+
+	    return data;
+	}
+		
+		
+	
+
+}

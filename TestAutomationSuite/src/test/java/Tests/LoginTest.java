@@ -1,14 +1,16 @@
 package Tests;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
+
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import Pages.CompaniesPage;
-
 import Pages.LoginPage;
-import Utils.ExcelDataProvider;
+import TestData.ExcelDataProvider;
 
 
 public class LoginTest extends TestBase {
@@ -20,22 +22,23 @@ public class LoginTest extends TestBase {
 	public void beforeClass() {
 		loginPage = new LoginPage(driver);
 		companiespage = new CompaniesPage(driver);
+		
 
 	}
-	
-	@DataProvider(name = "login")
-	public  Object[][] getLoginData() {
-		String path = "D:\\ahad-automation-test-suite\\TestAutomationSuite\\Test Data\\data.xlsx";
-		String sheetName = "login";
-		Object[][] data = ExcelDataProvider.getTestData(path, sheetName);
+	@DataProvider
+	public static Object[][] getLoginData() throws FileNotFoundException, IOException{
+		ExcelDataProvider.openExcel(".\\src\\test\\java\\TestData\\data.xlsx", "login");
+		Object[][] data = ExcelDataProvider.getSheetData();
 		return data;
 	}
+	
 
-	@Test (dataProvider = "login")
+	@Test (dataProvider ="getLoginData")
 	public void loginAndAssert(String email, String password) throws InterruptedException {
 		Thread.sleep(3000);
 		loginPage.login(email, password);
 		Assert.assertTrue(companiespage.isWelcomeBackToasterDisplayed());
+		
 	}
 
 }
